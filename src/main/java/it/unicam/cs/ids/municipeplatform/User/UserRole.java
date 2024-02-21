@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.municipeplatform.User;
 
-public enum UserType {
+public enum UserRole {
     CONTRIBUTOR,
     AUTHORIZED_CONTRIBUTOR,
     ANIMATOR,

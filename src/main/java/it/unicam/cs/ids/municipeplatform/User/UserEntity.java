@@ -20,7 +20,7 @@ public class UserEntity {
     private String fullName;
     private String email;
     private Date registrationDate;
-    private UserType enumUser;
+    private UserRole enumUser;
 
     @OneToMany
     private List<NotificationEntity> notificationList;
