@@ -8,6 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jdk.jshell.spi.ExecutionControl;
+import lombok.Getter;
+import lombok.Setter;
+
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +32,7 @@ public class ContentEntity {
     UserEntity creator = null;
     StateContent status = null;
     @ManyToOne
-    TownHallEntity platform;
+    TownHallEntity TownHall;
 
     public String getContentType() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Not implemented yet.");
@@ -46,5 +49,4 @@ public class ContentEntity {
     public ContentEntity(Long id) {
         this.setId(id);
     }
-
 }
