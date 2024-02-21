@@ -40,7 +40,7 @@ public class ContentEntity {
         this.description = description;
         this.creationDate = creationDate;
         this.creator = new UserEntity();
-        this.creator.setIdUser(creator);
+        this.creator.setIdUtente(creator);
     }
 
     public ContentEntity(Long id) {
