@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.municipeplatform.User;
 import it.unicam.cs.ids.municipeplatform.Notification.NotificationEntity;
+import it.unicam.cs.ids.municipeplatform.DTOs.UserCreationRequestDTO;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,11 +25,11 @@ public class UserEntity {
 
     @OneToMany
     private List<NotificationEntity> notificationList;
-    public UserEntity(String username, String fullName, String email, Date registrationDate) {
-        this.username = username;
-        this.fullName = fullName;
-        this.email = email;
-        this.registrationDate = registrationDate;
+    public UserEntity(UserCreationRequestDTO userCreationRequestDTO) {
+        this.username = userCreationRequestDTO.getUsername();
+        this.fullName = userCreationRequestDTO.getFullName();
+        this.email = userCreationRequestDTO.getEmail();
+        this.registrationDate = userCreationRequestDTO.getRegistrationDate();
 
         this.notificationList = null;
     }

@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.municipeplatform.Contest;
 
+import it.unicam.cs.ids.municipeplatform.DTOs.ContestCreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
 import it.unicam.cs.ids.municipeplatform.TownHall.TownHallEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
@@ -37,24 +38,7 @@ public class ContestEntity {
     @ManyToOne
     private UserEntity creator;
 
-    public ContestEntity(String name, String description, Date initialDate, Date endDate, String rules, String type, List<ContentEntity> contents, boolean contestOpen, TownHallEntity townHall, UserEntity creator) {
-        this.name = name;
-        this.description = description;
-        this.initialDate = initialDate;
-        this.endDate = endDate;
-        this.rules = rules;
-        this.type = type;
-        this.contents = new ArrayList<>();
-        this.contestOpen = true;
-
-        this.townHall = new TownHallEntity();
-        this.townHall.setId(townHall.getId());
-
-        this.creator = new UserEntity();
-        this.creator.setIdUtente(creator.getIdUtente());
-    }
-
-    /*public Contest(ContestCreationRequestDTO dto) {
+    public ContestEntity(ContestCreationRequestDTO dto) {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.initialDate = dto.getInitialDate();
@@ -65,13 +49,13 @@ public class ContestEntity {
         this.contestOpen = true;
 
         // set it to fill it later
-        this.townHall = new TownHall();
+        this.townHall = new TownHallEntity();
         this.townHall.setId(dto.getTownHallId());
 
         // set it to fill it later
-        this.creator = new User();
-        this.creator.setId(dto.getCreatorId());
-    }*/
+        this.creator = new UserEntity();
+        this.creator.setIdUtente(dto.getCreatorId());
+    }
 
     public void subscribe(ContentEntity content) {
         // make sure it's not here already
