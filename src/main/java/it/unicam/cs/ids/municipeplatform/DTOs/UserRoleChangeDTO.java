@@ -9,5 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserRoleChangeDTO extends UserBasicDTO {
+
+    Long userId;
+
     UserRole newRole;
 }

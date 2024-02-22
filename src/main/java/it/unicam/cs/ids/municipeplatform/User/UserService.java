@@ -1,5 +1,4 @@
 package it.unicam.cs.ids.municipeplatform.User;
-import it.unicam.cs.ids.municipeplatform.TownHall.TownHallEntity;
 
 import java.util.List;
 
@@ -9,6 +8,6 @@ public interface UserService {
     List<UserEntity> findAll();
     void delete(Long id);
     UserEntity getUser(Long id);
-    UserRole getRole(Long userId);
-    void setRole(Long userId, UserRole role);
+    UserRole getRole(Long userId, Long id);
+    void setRole(Long userId, Long id, UserRole role);
 }

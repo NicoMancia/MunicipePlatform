@@ -1,7 +1,5 @@
 package it.unicam.cs.ids.municipeplatform.User;
 
-import it.unicam.cs.ids.municipeplatform.TownHall.*;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRole getRole(Long userId) {
+    public UserRole getRole(Long userId, Long id) {
 //        List<UserEntity> roles = userRepository.findById(userId);
 //
 //        for (UserEntity i : roles) {
@@ -62,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void setRole(Long userId, UserRole role) {
+    public void setRole(Long userId, Long id, UserRole role) {
 //        List<UserEntity> roles = userRepository.findById(userId);
 //
 //        for (UserEntity i : roles) {
