@@ -1,4 +1,11 @@
 package it.unicam.cs.ids.municipeplatform.Itinerary;
 
-public class ItineraryRepository {
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import java.util.Date;
+import java.util.List;
+@Repository
+public interface ItineraryRepository extends CrudRepository<ItineraryEntity,Long> {
+    List<ItineraryEntity> findByNameAndDescriptionAndCreationDateAndDifficultyLevel(
+            String name, String description, Date creationDate, int difficultyLevel);
 }

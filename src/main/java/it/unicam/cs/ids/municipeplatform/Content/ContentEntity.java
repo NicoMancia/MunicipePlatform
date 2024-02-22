@@ -21,18 +21,20 @@ import lombok.*;
 @Entity
 @Table(name="content")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class ContentEntity {
+public abstract class ContentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "content_id_seq")
     private Long Id;
     String name = null;
     String description = null;
+    //b
     Date creationDate = null;
     @ManyToOne
     UserEntity creator = null;
     StateContent status = null;
+
     @ManyToOne
-    TownHallEntity TownHall;
+    TownHallEntity townHall;
 
     public String getContentType() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Not implemented yet.");
