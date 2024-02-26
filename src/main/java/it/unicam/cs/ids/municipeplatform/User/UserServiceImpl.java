@@ -38,48 +38,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRole getRole(Long userId, Long id) {
-//        List<UserEntity> roles = userRepository.findById(userId);
-//
-//        for (UserEntity i : roles) {
-//            if (i.getIdUtente().equals(userId)) {
-//                return i.getEnumUser();
-//            }
-//        }
+    public UserRole getRole(Long userId) {
+        List<UserEntity> roles = userRepository.findTownHallRolesByUserId(userId);
 
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
-
-        if (optionalUser.isPresent()) {
-            UserEntity user = optionalUser.get();
-            if (user.getIdUtente().equals(userId)) {
-                return user.getEnumUser();
-            }
+        for (UserEntity i : roles) {
+            return i.getEnumUser();
         }
-        throw new IllegalArgumentException("User does not have a role in the townhall");
+        throw new IllegalArgumentException("User does not have a role in this townhall");
     }
 
 
     @Override
-    public void setRole(Long userId, Long id, UserRole role) {
-//        List<UserEntity> roles = userRepository.findById(userId);
-//
-//        for (UserEntity i : roles) {
-//            if (i.getIdUtente().equals(userId)) {
-//               /* // throw if the townHall does not exist
-//                townHallService.getById(townHallId);*/
-//
-//                i.setEnumUser(role);
-//                userRepository.save(i);
-//                return;
-//            }
-//        }
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            UserEntity user = optionalUser.get();
-            user.setEnumUser(role);
-            userRepository.save(user);
-            return;
+    public void setRole(Long userId, UserRole role) {
+        List<UserEntity> roles = userRepository.findTownHallRolesByUserId(userId);
+
+        for (UserEntity i : roles) {
+                i.setEnumUser(role);
+                userRepository.save(i);
+                return;
         }
+
         throw new IllegalArgumentException("User does not have a role in this townHall");
     }
     @Override

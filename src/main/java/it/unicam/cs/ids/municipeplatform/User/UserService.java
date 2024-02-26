@@ -8,6 +8,6 @@ public interface UserService {
     List<UserEntity> findAll();
     void delete(Long id);
     UserEntity getUser(Long id);
-    UserRole getRole(Long userId, Long id);
-    void setRole(Long userId, Long id, UserRole role);
+    UserRole getRole(Long userId);
+    void setRole(Long userId, UserRole role);
 }

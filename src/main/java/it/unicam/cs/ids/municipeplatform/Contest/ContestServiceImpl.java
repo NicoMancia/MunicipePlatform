@@ -60,7 +60,7 @@ public class ContestServiceImpl implements ContestService {
             throw new IllegalArgumentException("| ERROR | Contest is NULL");
         }
 
-        if (userService.getRole(contest.getCreator().getIdUtente(), contest.getTownHall().getId())
+        if (userService.getRole(contest.getCreator().getIdUtente())
                 != UserRole.ANIMATOR) {
             throw new IllegalStateException("| ERROR | You need to be an animator to do this.");
         }

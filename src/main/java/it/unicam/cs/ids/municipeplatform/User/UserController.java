@@ -20,11 +20,11 @@ public class UserController implements BaseCrudController<UserCreationRequestDTO
     @PutMapping("/role/")
     public ResponseEntity<?> changeRole(@RequestBody UserRoleChangeDTO dto) {
         try {
-            if (userService.getRole(dto.getId(), dto.getUserId()) == dto.getNewRole()) {
+            if (userService.getRole(dto.getUserId()) == dto.getNewRole()) {
                 return ResponseEntity.badRequest().body("User already has this role.");
             }
 
-            userService.setRole(dto.getId(), dto.getUserId(), dto.getNewRole());
+            userService.setRole(dto.getUserId(), dto.getNewRole());
 
             return ResponseEntity.ok().body("Role change success.");
         } catch (IllegalArgumentException ex) {
