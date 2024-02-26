@@ -11,8 +11,13 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity,Long>
 {
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.username = :username OR u.email = :email")
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM UserEntity u WHERE u.username = :username OR u.email = :email")
     boolean exists(@Param("username") String username, @Param("email") String email);
     @Query("SELECT u FROM UserEntity u WHERE u.email = :email")
     List<UserEntity> findByEmail(@Param("email")String email);
+
+    @Query("SELECT t FROM UserEntity t WHERE t.idUtente = :userId")
+    List<UserEntity> findTownHallRolesByUserId(@Param("userId") Long userId);
+//    @Query("SELECT tru. FROM UserEntity tru WHERE tru.role = :role")
+//    List<UserEntity> findUserByRole(@Param("role")UserRole role);
 }

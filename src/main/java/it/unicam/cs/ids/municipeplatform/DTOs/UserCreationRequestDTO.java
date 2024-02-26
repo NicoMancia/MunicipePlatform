@@ -28,9 +28,6 @@ public class UserCreationRequestDTO {
     @NotNull(message = "Registration date cannot be null")
     private Date registrationDate;
 
-    @NotNull(message = "Townhall cannot be null")
-    private Long townHall;
-
     @Min(value = 0, message = "Role must be a positive integer")
     private int role;
 }

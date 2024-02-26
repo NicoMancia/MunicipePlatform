@@ -33,9 +33,6 @@ public abstract class ContentEntity {
     UserEntity creator = null;
     StateContent status = null;
 
-    @ManyToOne
-    TownHallEntity townHall;
-
     public String getContentType() throws ExecutionControl.NotImplementedException {
         throw new ExecutionControl.NotImplementedException("Not implemented yet.");
     }

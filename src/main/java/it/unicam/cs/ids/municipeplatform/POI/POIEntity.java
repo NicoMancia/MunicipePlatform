@@ -5,6 +5,7 @@ import it.unicam.cs.ids.municipeplatform.Location;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -12,9 +13,7 @@ import lombok.*;
 @Entity
 public class POIEntity extends ContentEntity
 {
-    @Getter
     private PoiCategory category;
-    @Getter
     @Embedded
     private Location location;
 

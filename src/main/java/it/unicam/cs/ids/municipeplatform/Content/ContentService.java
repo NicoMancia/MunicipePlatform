@@ -40,6 +40,4 @@ public interface ContentService {
     void approveItinerary(Long id);
 
     boolean canUserApproveContent(Long contentId, Long userId);
-
-    void deleteTownHallReferences(Long townHallId);
 }

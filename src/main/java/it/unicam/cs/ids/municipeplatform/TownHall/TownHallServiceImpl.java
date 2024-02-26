@@ -56,21 +56,4 @@ public class TownHallServiceImpl implements TownHallService{
 
         return townHall;
     }
-
-    /**
-     * Deletes a town hall by its ID.
-     * Validates the existence of the town hall before deleting and also
-     * deletes all references to this town hall in other entities.
-     *
-     * @param aLong The ID of the town hall to delete.
-     * @throws IllegalArgumentException if the town hall is not found.
-     */
-    @Override
-    public void delete(Long aLong) {
-        townHallRepository.findById(aLong)
-                .orElseThrow(() -> new IllegalArgumentException("| ERROR | TownHall not found"));
-
-        contentService.deleteTownHallReferences(aLong);
-        townHallRepository.deleteById(aLong);
-    }
 }

@@ -7,6 +7,7 @@ import it.unicam.cs.ids.municipeplatform.Notification.NotificationRepository;
 import it.unicam.cs.ids.municipeplatform.TownHall.TownHallService;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserRepository;
+import it.unicam.cs.ids.municipeplatform.User.UserRole;
 import it.unicam.cs.ids.municipeplatform.User.UserService;
 import org.springframework.stereotype.Service;
 
@@ -59,15 +60,15 @@ public class ContestServiceImpl implements ContestService {
             throw new IllegalArgumentException("| ERROR | Contest is NULL");
         }
 
-//        if (townHallRoleService.getRole(contest.getCreator().getId(), contest.getTownHall().getId())
-//                != Role.Animator) {
-//            throw new IllegalStateException("| ERROR | You need to be an animator to do this.");
-//        }
+        if (userService.getRole(contest.getCreator().getIdUtente(), contest.getTownHall().getId())
+                != UserRole.ANIMATOR) {
+            throw new IllegalStateException("| ERROR | You need to be an animator to do this.");
+        }
 
 //        // fill in partially filled data points
 //        contest.setTownHall(townHallService.getById
 //                (contest.getTownHall().getId()));
-//        contest.setCreator(userService.getUser(contest.getCreator().getIdUtente()));
+        contest.setCreator(userService.getUser(contest.getCreator().getIdUtente()));
 
         // subscribe all passed contents to the contest!
         contents.forEach(c -> {
@@ -154,18 +155,14 @@ public class ContestServiceImpl implements ContestService {
     }
 
     private NotificationEntity buildDefaultLosingNotification(String username, String contestName) {
-        NotificationEntity notification = new NotificationEntity(String.format("Sorry %s!", username),
+        return new NotificationEntity(String.format("Sorry %s!", username),
                 String.format("Unfortunately, you did not win our %s contest.",
                         contestName));
-
-        return notification;
     }
 
     private NotificationEntity buildDefaultWinningNotification(String username, String contestName) {
-        NotificationEntity notification = new NotificationEntity(String.format("Congratulations %s!", username),
+        return new NotificationEntity(String.format("Congratulations %s!", username),
                 String.format("You won our %s contest!", contestName));
-
-        return notification;
     }
 
     /**

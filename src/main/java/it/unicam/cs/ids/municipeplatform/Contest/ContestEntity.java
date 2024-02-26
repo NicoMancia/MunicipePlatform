@@ -49,10 +49,6 @@ public class ContestEntity {
         this.contestOpen = true;
 
         // set it to fill it later
-        this.townHall = new TownHallEntity();
-        this.townHall.setId(dto.getTownHallId());
-
-        // set it to fill it later
         this.creator = new UserEntity();
         this.creator.setIdUtente(dto.getCreatorId());
     }
