@@ -127,14 +127,4 @@ public class SearchServiceImpl implements SearchService {
         return eventRepository.findEventsByNameAndDescriptionWithinDateRange(
                 name, description, startDate, endDate);
     }
-    /**
-     * Searches for users by email. Returns a list of users with the specified email.
-     *
-     * @param email The email of the user to match.
-     * @return A list of users with the specified email.
-     */
-    @Override
-    public List<UserEntity> searchUsersByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 }
