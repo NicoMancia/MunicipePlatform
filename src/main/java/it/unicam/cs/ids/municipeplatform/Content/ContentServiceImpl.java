@@ -33,7 +33,7 @@ public class ContentServiceImpl implements ContentService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ContentRepository contentRepository;
-    // private final TownHallRoleRepository townHallRoleRepository;
+   // private final TownHallRoleRepository townHallRoleRepository;
     private final TownHallRepository townHallRepository;
 
     public ContentServiceImpl(ItineraryRepository itineraryRepository,
@@ -92,6 +92,37 @@ public class ContentServiceImpl implements ContentService {
 
         return Optional.empty();
     }
+
+    /**
+     * Deletes all references to a specified town hall in both content and town hall roles. This method first collects
+     * IDs of all content and roles associated with the town hall and then deletes them. Initially, it retrieves all
+     * content linked to the town hall and deletes each piece of content. Subsequently, it finds all town hall roles
+     * associated with the town hall and deletes these roles as well.
+     *
+     * @param townHallId The ID of the town hall for which references are to be deleted.
+     */
+//    public void deleteTownHallReferences(Long townHallId) {
+//        List<Long> ids = new ArrayList<>();
+//
+//        contentRepository.findAll().forEach(c -> {
+//            if (c.getTownHall().getId().equals(townHallId)) {
+//                ids.add(c.getId());
+//            }
+//        });
+//
+//        // first clear all contents
+//        ids.forEach(contentRepository::deleteById);
+//        ids.clear();
+//
+//        townHallRoleRepository.findAll().forEach(thr -> {
+//            if (thr.getTownHall().getId().equals(townHallId)) {
+//                ids.add(thr.getId());
+//            }
+//        });
+//
+//        // then clear all roles
+//        ids.forEach(townHallRoleRepository::deleteById);
+//    }
 
     /**
      * Creates and saves a new itinerary with the specified contents. It sets the creator and town hall based on their IDs,
@@ -389,5 +420,5 @@ public class ContentServiceImpl implements ContentService {
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have a role in this town hall"));
 
         return role == UserRole.CURATOR;
-}
+    }
 }

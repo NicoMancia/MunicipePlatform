@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.municipeplatform.TownHall;
 
+import it.unicam.cs.ids.municipeplatform.DTOs.TownHallCreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.Location;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,10 +20,10 @@ public class TownHallEntity {
     @Embedded
     private Location location;
     private double area;
-    public TownHallEntity(String name, String description, Location location, double area) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.area = area;
+    public TownHallEntity(TownHallCreationRequestDTO dto) {
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.location = dto.getLocation();
+        this.area = dto.getArea();
     }
 }
