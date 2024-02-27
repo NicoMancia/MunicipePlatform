@@ -6,7 +6,7 @@ import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
