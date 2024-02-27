@@ -10,13 +10,11 @@ import java.util.stream.StreamSupport;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    /*private final TownHallRepository townHallRepository;
-    private final TownHallService townHallService;*/
 
-    public UserServiceImpl(UserRepository userRepository/*, TownHallRepository townHallRepository, TownHallService townHallService*/) {
+
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-       /* this.townHallRepository = townHallRepository;
-        this.townHallService = townHallService;*/
+
     }
 
     @Override
@@ -53,9 +51,9 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> roles = userRepository.findTownHallRolesByUserId(userId);
 
         for (UserEntity i : roles) {
-                i.setEnumUser(role);
-                userRepository.save(i);
-                return;
+            i.setEnumUser(role);
+            userRepository.save(i);
+            return;
         }
 
         throw new IllegalArgumentException("User does not have a role in this townHall");

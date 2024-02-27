@@ -18,6 +18,4 @@ public interface UserRepository extends CrudRepository<UserEntity,Long>
 
     @Query("SELECT t FROM UserEntity t WHERE t.idUtente = :userId")
     List<UserEntity> findTownHallRolesByUserId(@Param("userId") Long userId);
-//    @Query("SELECT tru. FROM UserEntity tru WHERE tru.role = :role")
-//    List<UserEntity> findUserByRole(@Param("role")UserRole role);
 }
