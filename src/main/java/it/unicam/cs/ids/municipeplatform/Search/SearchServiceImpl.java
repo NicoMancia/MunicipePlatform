@@ -4,19 +4,19 @@ import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
 import it.unicam.cs.ids.municipeplatform.Content.ContentRepository;
 import it.unicam.cs.ids.municipeplatform.Contest.ContestEntity;
 import it.unicam.cs.ids.municipeplatform.Contest.ContestRepository;
+import it.unicam.cs.ids.municipeplatform.Event.EventCategory;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Event.EventRepository;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryRepository;
-import it.unicam.cs.ids.municipeplatform.Location;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIRepository;
 import it.unicam.cs.ids.municipeplatform.POI.PoiCategory;
-import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserRepository;
 import jdk.jshell.spi.ExecutionControl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,13 +104,12 @@ public class SearchServiceImpl implements SearchService {
      * @param name The name of the point of interest to match.
      * @param description The description of the point of interest to match.
      * @param category The category of the point of interest to match.
-     * @param location The location of the point of interest to match.
      * @return A list of points of interest that match the search criteria.
      */
     @Override
-    public List<POIEntity> searchPointsOfInterest(String name, String description, PoiCategory category, Location location) {
-        return pointOfInterestRepository.findByNameAndDescriptionAndCategoryAndLocation(
-                name, description, category, location);
+    public List<POIEntity> searchPointsOfInterest(String name, String description, PoiCategory category) {
+        return pointOfInterestRepository.findByNameAndDescriptionAndCategory(
+                name, description, category);
     }
 
     /**
@@ -123,8 +122,8 @@ public class SearchServiceImpl implements SearchService {
      * @return A list of events that match the search criteria.
      */
     @Override
-    public List<EventEntity> searchEvents(String name, String description, Date startDate, Date endDate) {
-        return eventRepository.findEventsByNameAndDescriptionWithinDateRange(
-                name, description, startDate, endDate);
+    public List<EventEntity> searchEvents(String name, String description, EventCategory category, LocalDateTime startDate,LocalDateTime endDate) {
+        return eventRepository.findEventsByNameAndDescriptionAndCategoryWithinDateRange(
+                name, description, category, startDate, endDate);
     }
 }

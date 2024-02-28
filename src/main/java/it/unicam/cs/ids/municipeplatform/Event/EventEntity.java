@@ -3,10 +3,12 @@ package it.unicam.cs.ids.municipeplatform.Event;
 import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
 import it.unicam.cs.ids.municipeplatform.Location;
 import it.unicam.cs.ids.municipeplatform.DTOs.EventCreationRequestDTO;
+import it.unicam.cs.ids.municipeplatform.POI.PoiCategory;
 import jakarta.persistence.Embedded;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +22,7 @@ import lombok.*;
 public class EventEntity extends ContentEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private EventCategory category;
     @Embedded
     private Location location;
     @Override
@@ -35,6 +38,7 @@ public class EventEntity extends ContentEntity {
                 eventCreationRequestDTO.getCreator()
         );
 
+        this.category = eventCreationRequestDTO.getCategory();
         this.startDate = eventCreationRequestDTO.getStartDate();
         this.endDate = eventCreationRequestDTO.getEndDate();
         this.location = eventCreationRequestDTO.getLocation();

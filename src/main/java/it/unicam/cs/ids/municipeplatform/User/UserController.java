@@ -58,7 +58,6 @@ public class UserController implements BaseCrudController<UserCreationRequestDTO
     @Override
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         userService.delete(id);
-
         return ResponseEntity.ok().body("User successfully deleted.");
     }
 }

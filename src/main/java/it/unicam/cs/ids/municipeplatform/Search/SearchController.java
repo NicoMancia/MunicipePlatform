@@ -3,6 +3,7 @@ package it.unicam.cs.ids.municipeplatform.Search;
 
 import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
 import it.unicam.cs.ids.municipeplatform.Contest.ContestEntity;
+import it.unicam.cs.ids.municipeplatform.Event.EventCategory;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.Location;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -54,17 +56,17 @@ public class SearchController {
     @GetMapping(path ="/pois")
     public List<POIEntity> searchPointsOfInterest(@RequestParam String name,
                                                   @RequestParam String description,
-                                                  @RequestParam PoiCategory category,
-                                                  @RequestParam Location location) {
-        return searchService.searchPointsOfInterest(name, description, category, location);
+                                                  @RequestParam PoiCategory category) {
+        return searchService.searchPointsOfInterest(name, description, category);
     }
 
     @GetMapping("/events")
     public List<EventEntity> searchEvents(@RequestParam String name,
                                           @RequestParam String description,
-                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        return searchService.searchEvents(name, description, startDate, endDate);
+                                          @RequestParam EventCategory category,
+                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime startDate,
+                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime endDate) {
+        return searchService.searchEvents(name, description, category,startDate, endDate);
     }
 }
 

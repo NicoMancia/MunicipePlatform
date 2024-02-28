@@ -371,11 +371,9 @@ public class ContentServiceImpl implements ContentService {
         ContentEntity content = contentRepository.findById(contentId)
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Content doesn't exist"));
 
-        UserRole role = userRepository.findTownHallRolesByUserId(userId)
-                .stream()
-                .map(UserEntity::getEnumUser)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have a role in this town hall"));
+
+        userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't exist"));
+        UserRole role = userRepository.findUserRole(userId).getEnumUser();
 
         return role == UserRole.CURATOR;
     }

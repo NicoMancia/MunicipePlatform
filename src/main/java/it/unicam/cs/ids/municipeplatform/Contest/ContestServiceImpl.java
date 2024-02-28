@@ -65,9 +65,6 @@ public class ContestServiceImpl implements ContestService {
             throw new IllegalStateException("| ERROR | You need to be an animator to do this.");
         }
 
-//        // fill in partially filled data points
-//        contest.setTownHall(townHallService.getById
-//                (contest.getTownHall().getId()));
         contest.setCreator(userService.getUser(contest.getCreator().getIdUser()));
 
         // subscribe all passed contents to the contest!

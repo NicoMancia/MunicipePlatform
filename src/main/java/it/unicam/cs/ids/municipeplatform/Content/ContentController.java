@@ -19,16 +19,16 @@ public class ContentController {
             return ResponseEntity.badRequest().body("You cannot approve the content.");
 
         contentService.approveEvent(id);
-        return ResponseEntity.ok().body("{}");
+        return ResponseEntity.ok().body("The content status has been successfully changed.");
     }
     @PutMapping("/approve/poi/{id}")
     public ResponseEntity<?> approvePoi(@PathVariable Long id, @RequestBody Long userId)
     {
-        if (contentService.canUserApproveContent(id, userId))
+        if (!contentService.canUserApproveContent(id, userId))
             return ResponseEntity.badRequest().body("You cannot approve the content.");
 
         contentService.approvePointOfInterest(id);
-        return ResponseEntity.ok().body("{}");
+        return ResponseEntity.ok().body("The content status has been successfully changed.");
     }
     @PutMapping("/approve/itinerary/{id}")
     public ResponseEntity<?> approveItinerary(@PathVariable Long id, @RequestBody Long userId)
@@ -37,6 +37,6 @@ public class ContentController {
             return ResponseEntity.badRequest().body("You cannot approve the content.");
 
         contentService.approveItinerary(id);
-        return ResponseEntity.ok().body("{}");
+        return ResponseEntity.ok().body("The content status has been successfully changed.");
 }
 }
