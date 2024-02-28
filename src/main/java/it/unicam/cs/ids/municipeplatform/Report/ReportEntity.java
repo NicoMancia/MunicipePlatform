@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 @Data
 @Entity
-@Table(name="report")
+@Table(name="Report")
 public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="report_id_seq")

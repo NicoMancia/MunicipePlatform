@@ -45,6 +45,6 @@ public class POIController implements BaseCrudController<POICreationRequestDTO, 
     }
     @Override
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        return null;
+        return ResponseEntity.ok().body("User successfully deleted.");
 }
 }

@@ -5,6 +5,8 @@ import it.unicam.cs.ids.municipeplatform.DTOs.UserCreationRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @AllArgsConstructor
@@ -12,15 +14,15 @@ import java.util.List;
 @Builder
 @Data
 @Entity
-@Table(name="app_users")
+@Table(name="UserEntity")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUtente;
+    private Long idUser;
     private String username;
     private String fullName;
     private String email;
-    private Date registrationDate;
+    private LocalDateTime registrationDate;
     private UserRole enumUser;
 
     @OneToMany
@@ -30,7 +32,6 @@ public class UserEntity {
         this.fullName = userCreationRequestDTO.getFullName();
         this.email = userCreationRequestDTO.getEmail();
         this.registrationDate = userCreationRequestDTO.getRegistrationDate();
-
         this.notificationList = null;
     }
 

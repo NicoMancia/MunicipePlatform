@@ -2,6 +2,7 @@ package it.unicam.cs.ids.municipeplatform.DTOs;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,6 +11,6 @@ import java.util.Date;
 public class ContentCreationRequestDTO {
     private String name;
     private String description;
-    private Date creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
     private Long creator;
 }

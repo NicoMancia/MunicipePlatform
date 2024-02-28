@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping(path = "/search")
 public class SearchController {
 
     private final SearchService searchService;
@@ -27,7 +27,7 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    @GetMapping("/contests")
+    @GetMapping(path ="/contests")
     public List<ContestEntity> searchContests(@RequestParam String name,
                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
@@ -35,7 +35,7 @@ public class SearchController {
         return searchService.searchContests(name, startDate, endDate, type);
     }
 
-    @GetMapping("/content")
+    @GetMapping(path ="/content")
     public List<ContentEntity> searchContent(@RequestParam String name,
                                              @RequestParam String description,
                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date creationDate,
@@ -43,7 +43,7 @@ public class SearchController {
         return searchService.searchContent(name, description, creationDate, contentType);
     }
 
-    @GetMapping("/itineraries")
+    @GetMapping(path ="/itineraries")
     public List<ItineraryEntity> searchItineraries(@RequestParam String name,
                                                    @RequestParam String description,
                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date creationDate,
@@ -51,7 +51,7 @@ public class SearchController {
         return searchService.searchItineraries(name, description, creationDate);
     }
 
-    @GetMapping("/pois")
+    @GetMapping(path ="/pois")
     public List<POIEntity> searchPointsOfInterest(@RequestParam String name,
                                                   @RequestParam String description,
                                                   @RequestParam PoiCategory category,

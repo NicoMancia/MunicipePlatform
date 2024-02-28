@@ -1,15 +1,10 @@
 package it.unicam.cs.ids.municipeplatform.Content;
-import it.unicam.cs.ids.municipeplatform.Contest.ContestEntity;
-import it.unicam.cs.ids.municipeplatform.Contest.ContestRepository;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Event.EventRepository;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryRepository;
-import it.unicam.cs.ids.municipeplatform.Notification.NotificationEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIRepository;
-import it.unicam.cs.ids.municipeplatform.Report.ReportEntity;
-import it.unicam.cs.ids.municipeplatform.TownHall.TownHallEntity;
 import it.unicam.cs.ids.municipeplatform.TownHall.TownHallRepository;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserRepository;
@@ -18,9 +13,7 @@ import it.unicam.cs.ids.municipeplatform.User.*;
 
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,22 +26,17 @@ public class ContentServiceImpl implements ContentService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ContentRepository contentRepository;
-   // private final TownHallRoleRepository townHallRoleRepository;
-    private final TownHallRepository townHallRepository;
 
     public ContentServiceImpl(ItineraryRepository itineraryRepository,
                               POIRepository pointOfInterestRepository,
                               EventRepository eventRepository,
-                              UserRepository userRepository, ContentRepository contentRepository,
-                              TownHallRepository townHallRepository) {
+                              UserRepository userRepository, ContentRepository contentRepository) {
 
         this.itineraryRepository = itineraryRepository;
         this.pointOfInterestRepository = pointOfInterestRepository;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
-        //this.townHallRoleRepository = townHallRoleRepository;
-        this.townHallRepository = townHallRepository;
     }
 
     /*
@@ -84,6 +72,7 @@ public class ContentServiceImpl implements ContentService {
     private Optional<StateContent> getDefaultApprovalStatusFromUser(Long id) {
         userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't exist"));
+
         List<UserEntity> roles = userRepository.findTownHallRolesByUserId(id);
 
         for (UserEntity role : roles) {
@@ -92,37 +81,6 @@ public class ContentServiceImpl implements ContentService {
 
         return Optional.empty();
     }
-
-    /**
-     * Deletes all references to a specified town hall in both content and town hall roles. This method first collects
-     * IDs of all content and roles associated with the town hall and then deletes them. Initially, it retrieves all
-     * content linked to the town hall and deletes each piece of content. Subsequently, it finds all town hall roles
-     * associated with the town hall and deletes these roles as well.
-     *
-     * @param townHallId The ID of the town hall for which references are to be deleted.
-     */
-//    public void deleteTownHallReferences(Long townHallId) {
-//        List<Long> ids = new ArrayList<>();
-//
-//        contentRepository.findAll().forEach(c -> {
-//            if (c.getTownHall().getId().equals(townHallId)) {
-//                ids.add(c.getId());
-//            }
-//        });
-//
-//        // first clear all contents
-//        ids.forEach(contentRepository::deleteById);
-//        ids.clear();
-//
-//        townHallRoleRepository.findAll().forEach(thr -> {
-//            if (thr.getTownHall().getId().equals(townHallId)) {
-//                ids.add(thr.getId());
-//            }
-//        });
-//
-//        // then clear all roles
-//        ids.forEach(townHallRoleRepository::deleteById);
-//    }
 
     /**
      * Creates and saves a new itinerary with the specified contents. It sets the creator and town hall based on their IDs,
@@ -141,7 +99,7 @@ public class ContentServiceImpl implements ContentService {
             throw new IllegalArgumentException("| ERROR | Itinerary is NULL");
         }
 
-        itinerary.setCreator(userRepository.findById(itinerary.getCreator().getIdUtente())
+        itinerary.setCreator(userRepository.findById(itinerary.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
         for (Long id : contents)
@@ -151,7 +109,7 @@ public class ContentServiceImpl implements ContentService {
             itinerary.getContents().add(content);
         }
 
-        itinerary.setStatus(getDefaultApprovalStatusFromUser(itinerary.getCreator().getIdUtente())
+        itinerary.setStatus(getDefaultApprovalStatusFromUser(itinerary.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have an approval status")));
 
         return itineraryRepository.save(itinerary);
@@ -173,10 +131,10 @@ public class ContentServiceImpl implements ContentService {
             throw new IllegalArgumentException("| ERROR | PointOfInterest is NULL");
         }
 
-        pointOfInterest.setCreator(userRepository.findById(pointOfInterest.getCreator().getIdUtente())
+        pointOfInterest.setCreator(userRepository.findById(pointOfInterest.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
-        pointOfInterest.setStatus(getDefaultApprovalStatusFromUser(pointOfInterest.getCreator().getIdUtente())
+        pointOfInterest.setStatus(getDefaultApprovalStatusFromUser(pointOfInterest.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have an approval status")));
 
         return pointOfInterestRepository.save(pointOfInterest);
@@ -198,10 +156,10 @@ public class ContentServiceImpl implements ContentService {
             throw new IllegalArgumentException("| ERROR | Event is NULL");
         }
 
-        event.setCreator(userRepository.findById(event.getCreator().getIdUtente())
+        event.setCreator(userRepository.findById(event.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
-        event.setStatus(getDefaultApprovalStatusFromUser(event.getCreator().getIdUtente())
+        event.setStatus(getDefaultApprovalStatusFromUser(event.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have an approval status")));
 
         return eventRepository.save(event);
@@ -303,7 +261,7 @@ public class ContentServiceImpl implements ContentService {
             throw new IllegalArgumentException("| ERROR | Event is already Expired");
         }
 
-        event.setCreator(userRepository.findById(event.getCreator().getIdUtente())
+        event.setCreator(userRepository.findById(event.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
         eventRepository.save(event);
@@ -323,7 +281,7 @@ public class ContentServiceImpl implements ContentService {
             throw new IllegalArgumentException("| ERROR | PointOfInterest is NULL");
         }
 
-        pointOfInterest.setCreator(userRepository.findById(pointOfInterest.getCreator().getIdUtente())
+        pointOfInterest.setCreator(userRepository.findById(pointOfInterest.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
         pointOfInterestRepository.save(pointOfInterest);
@@ -347,7 +305,7 @@ public class ContentServiceImpl implements ContentService {
         itineraryRepository.findById(itinerary.getId())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Itinerary doesn't exist"));
 
-        UserEntity user = userRepository.findById(itinerary.getCreator().getIdUtente())
+        UserEntity user = userRepository.findById(itinerary.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't exist"));
         itinerary.setCreator(user);
 

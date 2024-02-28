@@ -16,7 +16,7 @@ import lombok.Getter;
 @Builder
 @Data
 @Entity
-@Table(name="contest")
+@Table(name="Contest")
 public class ContestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contest_id_seq")
@@ -28,13 +28,11 @@ public class ContestEntity {
     private String rules;
     @Getter
     private String type;
-    @ManyToMany
+    @OneToMany
     private List<ContentEntity> contents;
     @ManyToOne
     private ContentEntity winningContent;
     private boolean contestOpen;
-    @ManyToOne
-    private TownHallEntity townHall;
     @ManyToOne
     private UserEntity creator;
 
@@ -50,7 +48,7 @@ public class ContestEntity {
 
         // set it to fill it later
         this.creator = new UserEntity();
-        this.creator.setIdUtente(dto.getCreatorId());
+        this.creator.setIdUser(dto.getCreatorId());
     }
 
     public void subscribe(ContentEntity content) {
@@ -84,8 +82,8 @@ public class ContestEntity {
         // and return it.
         Set<Long> losers = new HashSet<>();
         for (ContentEntity content : this.contents) {
-            if (!content.getCreator().getIdUtente().equals(winnerContentId)) {
-                losers.add(content.getCreator().getIdUtente());
+            if (!content.getCreator().getIdUser().equals(winnerContentId)) {
+                losers.add(content.getCreator().getIdUser());
             }
         }
 

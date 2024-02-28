@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class UserCreationRequestDTO {
     private String email;
 
     @NotNull(message = "Registration date cannot be null")
-    private Date registrationDate;
+    private LocalDateTime registrationDate = LocalDateTime.now();
 
     @Min(value = 0, message = "Role must be a positive integer")
     private int role;

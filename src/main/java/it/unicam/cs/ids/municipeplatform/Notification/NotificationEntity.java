@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @Entity
-@Table(name="notification")
+@Table(name="Notification")
 public class NotificationEntity
 {
     @Id

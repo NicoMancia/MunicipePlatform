@@ -14,6 +14,6 @@ public interface UserRepository extends CrudRepository<UserEntity,Long>
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM UserEntity u WHERE u.username = :username OR u.email = :email")
     boolean exists(@Param("username") String username, @Param("email") String email);
 
-    @Query("SELECT t FROM UserEntity t WHERE t.idUtente = :userId")
+    @Query("SELECT t FROM UserEntity t WHERE t.idUser = :userId")
     List<UserEntity> findTownHallRolesByUserId(@Param("userId") Long userId);
 }

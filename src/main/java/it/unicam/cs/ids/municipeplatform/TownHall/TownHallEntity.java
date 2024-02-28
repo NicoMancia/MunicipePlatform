@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @Data
 @Entity
-@Table(name="townhall")
+@Table(name="Townhall")
 public class TownHallEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="townHall_id_seq")

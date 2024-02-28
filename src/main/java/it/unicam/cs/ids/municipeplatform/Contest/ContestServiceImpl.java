@@ -60,7 +60,7 @@ public class ContestServiceImpl implements ContestService {
             throw new IllegalArgumentException("| ERROR | Contest is NULL");
         }
 
-        if (userService.getRole(contest.getCreator().getIdUtente())
+        if (userService.getRole(contest.getCreator().getIdUser())
                 != UserRole.ANIMATOR) {
             throw new IllegalStateException("| ERROR | You need to be an animator to do this.");
         }
@@ -68,7 +68,7 @@ public class ContestServiceImpl implements ContestService {
 //        // fill in partially filled data points
 //        contest.setTownHall(townHallService.getById
 //                (contest.getTownHall().getId()));
-        contest.setCreator(userService.getUser(contest.getCreator().getIdUtente()));
+        contest.setCreator(userService.getUser(contest.getCreator().getIdUser()));
 
         // subscribe all passed contents to the contest!
         contents.forEach(c -> {
@@ -126,8 +126,6 @@ public class ContestServiceImpl implements ContestService {
                     .orElseThrow(() -> new IllegalArgumentException("| ERROR | Content doesn't exist"));
             contest.getContents().add(elem);
         }
-
-        contest.setTownHall(original.getTownHall());
         contest.setCreator(original.getCreator());
 
         contestRepository.save(contest);
@@ -189,7 +187,7 @@ public class ContestServiceImpl implements ContestService {
 
         // if the winner had several entries and one of them
         // lost, they should not receive a losing notification
-        losers.remove(winningContent.getCreator().getIdUtente());
+        losers.remove(winningContent.getCreator().getIdUser());
 
         // build and send out all notifications to users
         losers.forEach(loserId -> {
