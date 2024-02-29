@@ -46,13 +46,11 @@ public class ContestEntity {
         this.contents = new ArrayList<>();
         this.contestOpen = true;
 
-        // set it to fill it later
         this.creator = new UserEntity();
         this.creator.setIdUser(dto.getCreatorId());
     }
 
     public void subscribe(ContentEntity content) {
-        // make sure it's not here already
         for (ContentEntity c : contents) {
             if (c.getId().equals(content.getId())) {
                 throw new IllegalStateException("Content already subscribed to contest.");
@@ -61,9 +59,7 @@ public class ContestEntity {
 
         this.contents.add(content);
     }
-
     public void unsubscribe(ContentEntity content) {
-        // make sure it's not here already
         for (ContentEntity c : contents) {
             if (c.getId().equals(content.getId())) {
                 this.contents.remove(content);
@@ -72,33 +68,5 @@ public class ContestEntity {
         }
         throw new IllegalStateException("Content already unsubscribed to contest.");
 
-    }
-
-    public Set<Long> closeContest(Long winnerContentId) {
-        if (!this.contestOpen) {
-            throw new IllegalStateException("Contest is already closed.");
-        }
-
-        this.contestOpen = false;
-        this.winningContent = this.contents.stream()
-                .filter(c -> c.getId().equals(winnerContentId))
-                .findFirst().orElse(null);
-
-        if (this.winningContent == null) {
-            this.contestOpen = true;
-            throw new IllegalStateException("Contest is already closed.");
-        }
-
-        // Get a list from all contents in the objects
-        // of losing user ids that are not equal to winnerContentId from the content creators
-        // and return it.
-        Set<Long> losers = new HashSet<>();
-        for (ContentEntity content : this.contents) {
-            if (!content.getCreator().getIdUser().equals(winnerContentId)) {
-                losers.add(content.getCreator().getIdUser());
-            }
-        }
-
-        return losers;
     }
 }

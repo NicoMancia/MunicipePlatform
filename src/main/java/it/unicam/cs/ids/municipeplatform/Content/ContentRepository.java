@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ContentRepository extends CrudRepository<ContentEntity,Long>{
     List<ContentEntity> findByNameAndDescriptionAndCreationDate(
             @Param("name") String name,
             @Param("description") String description,
-            @Param("creationDate") Date creationDate);
+            @Param("creationDate") LocalDateTime creationDate);
     @Query("SELECT t FROM ContentEntity t WHERE t.status = 2")
     List<ContentEntity> findAllPending();
 

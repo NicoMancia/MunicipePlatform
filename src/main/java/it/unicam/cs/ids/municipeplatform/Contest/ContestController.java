@@ -40,13 +40,14 @@ public class ContestController implements DataManagerController<ContestCreationR
 
         this.contestService.updateContest(elem, dto.getContents());
 
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("Content successfully updated!");
     }
 
     @PutMapping("/subscribe/{contestId}")
     public ResponseEntity<?> subscribeContent(@RequestBody  Long contentId,
                                               @PathVariable Long contestId) {
-        contestService.subscribeContent(contentId, contestId);
+        if(!contestService.subscribeContent(contentId, contestId))
+            return ResponseEntity.ok("Unable to enroll new content, contest ended!");
 
         return ResponseEntity.ok("Content successfully subscribed!");
     }
@@ -54,16 +55,17 @@ public class ContestController implements DataManagerController<ContestCreationR
     @PutMapping("/unsubscribe/{contestId}")
     public ResponseEntity<?> unsubscribeContent(@RequestBody  Long contentId,
                                               @PathVariable Long contestId) {
-        contestService.unsubscribeContent(contentId, contestId);
+        if(!contestService.subscribeContent(contentId, contestId))
+            return ResponseEntity.ok("Unable to unsubscribe content, contest ended!");
 
         return ResponseEntity.ok("Content successfully unsubscribed.");
     }
 
     @PutMapping("/terminate/{contestId}")
-    public ResponseEntity<?> terminateContest(@PathVariable Long contestId, @RequestBody Long winningContentId) {
-        contestService.terminateContest(contestId, winningContentId);
+    public ResponseEntity<?> terminateContest(@PathVariable Long contestId) {
+        contestService.terminateContest(contestId);
 
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("Contest ended!");
     }
 
     @Override

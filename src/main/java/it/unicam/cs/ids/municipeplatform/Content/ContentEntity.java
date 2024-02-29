@@ -28,7 +28,6 @@ public abstract class ContentEntity {
     private Long Id;
     String name = null;
     String description = null;
-    //b
     LocalDateTime creationDate = null;
     @ManyToOne
     UserEntity creator = null;

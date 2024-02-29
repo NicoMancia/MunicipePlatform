@@ -31,8 +31,8 @@ public class SearchController {
 
     @GetMapping(path ="/contests")
     public List<ContestEntity> searchContests(@RequestParam String name,
-                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime startDate,
+                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime endDate,
                                               @RequestParam String type) {
         return searchService.searchContests(name, startDate, endDate, type);
     }
@@ -40,7 +40,7 @@ public class SearchController {
     @GetMapping(path ="/content")
     public List<ContentEntity> searchContent(@RequestParam String name,
                                              @RequestParam String description,
-                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date creationDate,
+                                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime creationDate,
                                              @RequestParam(required = false) String contentType) {
         return searchService.searchContent(name, description, creationDate, contentType);
     }
@@ -54,10 +54,10 @@ public class SearchController {
     }
 
     @GetMapping(path ="/pois")
-    public List<POIEntity> searchPointsOfInterest(@RequestParam String name,
+    public List<POIEntity> searchPOI(@RequestParam String name,
                                                   @RequestParam String description,
                                                   @RequestParam PoiCategory category) {
-        return searchService.searchPointsOfInterest(name, description, category);
+        return searchService.searchPOI(name, description, category);
     }
 
     @GetMapping("/events")

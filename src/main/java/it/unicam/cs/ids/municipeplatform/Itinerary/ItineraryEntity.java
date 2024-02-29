@@ -23,21 +23,11 @@ public class ItineraryEntity extends ContentEntity {
 
     @ManyToMany
     private List<ContentEntity> contents;
-    /**
-     * Retrieves the content type of the itinerary.
-     *
-     * @return The content type.
-     */
     @Override
     public String getContentType() {
         return "ITINERARY";
     }
 
-    /*
-     * Constructs an Itinerary entity based on an {@link ItineraryCreationRequestDTO}.
-     *
-     * @param itineraryCreationRequestDTO The {@link ItineraryCreationRequestDTO} containing itinerary creation details.
-     */
     public ItineraryEntity(ItineraryCreationRequestDTO itineraryCreationRequestDTO) {
         super(
                 itineraryCreationRequestDTO.getName(),

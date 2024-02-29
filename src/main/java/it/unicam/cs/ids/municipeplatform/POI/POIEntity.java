@@ -16,22 +16,11 @@ public class POIEntity extends ContentEntity
     private PoiCategory category;
     @Embedded
     private Location location;
-
-    /**
-     * Retrieves the content type of the point of interest.
-     *
-     * @return The content type.
-     */
     @Override
     public String getContentType() {
         return "POINT_OF_INTEREST";
     }
 
-    /*
-     * Constructs a PointOfInterest entity based on a {@link PointOfInterestCreationRequestDTO}.
-     *
-     * @param poiCreationRequestDTO The {@link PointOfInterestCreationRequestDTO} containing point of interest creation details.
-     */
     public POIEntity(POICreationRequestDTO poiCreationRequestDTO) {
         super(
                 poiCreationRequestDTO.getName(),
@@ -42,8 +31,5 @@ public class POIEntity extends ContentEntity
 
         this.category = poiCreationRequestDTO.getCategory();
         this.location = poiCreationRequestDTO.getLocation();
-
-//        this.townHall = new TownHall();
-//        this.townHall.setId(poiCreationRequestDTO.getTownHall());
     }
 }

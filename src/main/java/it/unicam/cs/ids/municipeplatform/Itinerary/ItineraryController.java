@@ -44,7 +44,6 @@ public class ItineraryController implements DataManagerController<ItineraryCreat
         contentService.updateItinerary(it, dto.getContents());
         return ResponseEntity.ok("Itinerary successfully updated.");
     }
-
     @Override
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         return null;

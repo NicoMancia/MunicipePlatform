@@ -14,15 +14,6 @@ public class ContentController {
         this.contentService = contentService;
     }
 
-    @PutMapping("/approve/event/{id}")
-    public ResponseEntity<?> approveEvent(@PathVariable Long id, @RequestBody Long userId)
-    {
-        if (contentService.canUserApproveContent(id, userId))
-            return ResponseEntity.badRequest().body("You cannot approve the content.");
-
-        contentService.approveEvent(id);
-        return ResponseEntity.ok().body("The content status has been successfully changed.");
-    }
     @PutMapping("/approve/poi/{id}")
     public ResponseEntity<?> approvePoi(@PathVariable Long id, @RequestBody Long userId)
     {
@@ -32,16 +23,6 @@ public class ContentController {
         contentService.approvePOI(id);
         return ResponseEntity.ok().body("The content status has been successfully changed.");
     }
-    @PutMapping("/approve/itinerary/{id}")
-    public ResponseEntity<?> approveItinerary(@PathVariable Long id, @RequestBody Long userId)
-    {
-        if (contentService.canUserApproveContent(id, userId))
-            return ResponseEntity.badRequest().body("You cannot approve the content.");
-
-        contentService.approveItinerary(id);
-        return ResponseEntity.ok().body("The content status has been successfully changed.");
-    }
-
     @GetMapping("/getAll")
     public ResponseEntity<List<ContentEntity>> getAllContent() {
         return ResponseEntity.ok(contentService.getAllContent());
@@ -52,9 +33,27 @@ public class ContentController {
         return ResponseEntity.ok(contentService.getAllContentByUserId(id));
     }
 
+    @PutMapping("/approve/itinerary/{id}")
+    public ResponseEntity<?> approveItinerary(@PathVariable Long id, @RequestBody Long userId)
+    {
+        if (contentService.canUserApproveContent(id, userId))
+            return ResponseEntity.badRequest().body("You cannot approve the content.");
 
+        contentService.approveItinerary(id);
+        return ResponseEntity.ok().body("The content status has been successfully changed.");
+    }
     @GetMapping("/getAllPending")
     public ResponseEntity<List<ContentEntity>> getAllPending() {
         return ResponseEntity.ok(contentService.getAllPending());
+    }
+
+    @PutMapping("/approve/event/{id}")
+    public ResponseEntity<?> approveEvent(@PathVariable Long id, @RequestBody Long userId)
+    {
+        if (contentService.canUserApproveContent(id, userId))
+            return ResponseEntity.badRequest().body("You cannot approve the content.");
+
+        contentService.approveEvent(id);
+        return ResponseEntity.ok().body("The content status has been successfully changed.");
     }
 }

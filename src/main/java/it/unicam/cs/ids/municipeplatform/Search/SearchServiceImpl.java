@@ -28,7 +28,6 @@ public class SearchServiceImpl implements SearchService {
     private final POIRepository pointOfInterestRepository;
     private final EventRepository eventRepository;
     private final ContentRepository contentRepository;
-    private final UserRepository userRepository;
 
     public SearchServiceImpl(ContestRepository contestRepository,
                              ItineraryRepository itineraryRepository,
@@ -41,7 +40,6 @@ public class SearchServiceImpl implements SearchService {
         this.pointOfInterestRepository = pointOfInterestRepository;
         this.eventRepository = eventRepository;
         this.contentRepository = contentRepository;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -54,7 +52,7 @@ public class SearchServiceImpl implements SearchService {
      * @return A list of contests that match the search criteria.
      */
     @Override
-    public List<ContestEntity> searchContests(String name, Date startDate, Date endDate, String type) {
+    public List<ContestEntity> searchContests(String name, LocalDateTime startDate, LocalDateTime endDate, String type) {
         return contestRepository.findByNameAndInitialDateBetweenAndType(name, startDate, endDate, type);
     }
 
@@ -68,7 +66,7 @@ public class SearchServiceImpl implements SearchService {
      * @return A list of content that matches the search criteria.
      */
     @Override
-    public List<ContentEntity> searchContent(String name, String description, Date creationDate, String contentType) {
+    public List<ContentEntity> searchContent(String name, String description, LocalDateTime creationDate, String contentType) {
         List<ContentEntity> results = contentRepository.findByNameAndDescriptionAndCreationDate(name, description, creationDate);
         if (contentType != null && !contentType.isEmpty()) {
             return results.stream()
@@ -107,7 +105,7 @@ public class SearchServiceImpl implements SearchService {
      * @return A list of points of interest that match the search criteria.
      */
     @Override
-    public List<POIEntity> searchPointsOfInterest(String name, String description, PoiCategory category) {
+    public List<POIEntity> searchPOI(String name, String description, PoiCategory category) {
         return pointOfInterestRepository.findByNameAndDescriptionAndCategory(
                 name, description, category);
     }

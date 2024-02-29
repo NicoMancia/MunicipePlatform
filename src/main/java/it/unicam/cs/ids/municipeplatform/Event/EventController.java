@@ -23,7 +23,6 @@ public class EventController implements DataManagerController<EventCreationReque
     public ResponseEntity<EventEntity> create(EventCreationRequestDTO dto) {
         EventEntity newEvent = contentService.createNewEvent(new EventEntity(dto));
         return ResponseEntity.ok(newEvent);
-
     }
 
     @Override

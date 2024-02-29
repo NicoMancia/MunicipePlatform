@@ -50,7 +50,6 @@ public class UserController implements DataManagerController<UserCreationRequest
 
     @Override
     public ResponseEntity<?> update(Long aLong, UserCreationRequestDTO entity) {
-        // Bad request. No update use case for users yet.
         return ResponseEntity.badRequest().body("Not implemented.");
     }
 
