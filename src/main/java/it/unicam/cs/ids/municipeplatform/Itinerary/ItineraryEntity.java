@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ItineraryEntity extends ContentEntity {
 
     @Getter
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @ManyToMany
     private List<ContentEntity> contents;
@@ -46,12 +46,8 @@ public class ItineraryEntity extends ContentEntity {
                 itineraryCreationRequestDTO.getCreator()
         );
 
-
-//        this.difficultyLevel = itineraryCreationRequestDTO.getDifficultyLevel();
         this.contents = new ArrayList<>();
         this.endDate = itineraryCreationRequestDTO.getEndItineraryDate();
-        //this.townHall = new TownHallEntity();
-        //this.townHall.setId(itineraryCreationRequestDTO.getTownHall());
     }
 }
 

@@ -2,7 +2,6 @@ package it.unicam.cs.ids.municipeplatform.Content;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
-import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 
 import java.util.List;
 
@@ -26,6 +25,11 @@ public interface ContentService {
     List<ItineraryEntity> getAllItinerary();
 
     List<POIEntity> getAllPoi();
+    List<ContentEntity> getAllContent();
+
+    List<ContentEntity> getAllPending();
+
+    List<ContentEntity> getAllContentByUserId(Long userId);
 
     void updateEvent(EventEntity event);
 
@@ -35,7 +39,7 @@ public interface ContentService {
 
     void approveEvent(Long id);
 
-    void approvePointOfInterest(Long id);
+    void approvePOI(Long id);
 
     void approveItinerary(Long id);
 

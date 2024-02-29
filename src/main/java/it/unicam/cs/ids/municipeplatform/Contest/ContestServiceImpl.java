@@ -149,6 +149,19 @@ public class ContestServiceImpl implements ContestService {
         contestRepository.save(contest);
     }
 
+    @Override
+    public void unsubscribeContent(Long contentId, Long contestId) {
+
+        ContestEntity contest = contestRepository.findById(contestId)
+                .orElseThrow(() -> new IllegalArgumentException("| ERROR | Contest doesn't exist"));
+
+        ContentEntity content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new IllegalArgumentException("| ERROR | Content doesn't exist"));
+
+        contest.unsubscribe(content);
+        contestRepository.delete(contest);
+    }
+
     private NotificationEntity buildDefaultLosingNotification(String username, String contestName) {
         return new NotificationEntity(String.format("Sorry %s!", username),
                 String.format("Unfortunately, you did not win our %s contest.",

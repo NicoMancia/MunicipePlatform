@@ -1,17 +1,16 @@
 package it.unicam.cs.ids.municipeplatform.User;
 
-import it.unicam.cs.ids.municipeplatform.BaseCrudController;
+import it.unicam.cs.ids.municipeplatform.DataManagerController;
 import it.unicam.cs.ids.municipeplatform.DTOs.UserCreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.DTOs.UserRoleChangeDTO;
 
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/users")
-public class UserController implements BaseCrudController<UserCreationRequestDTO, Long> {
+public class UserController implements DataManagerController<UserCreationRequestDTO, Long> {
     private final UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
@@ -50,7 +49,7 @@ public class UserController implements BaseCrudController<UserCreationRequestDTO
     }
 
     @Override
-    public ResponseEntity<?> update(UserCreationRequestDTO entity, Long aLong) {
+    public ResponseEntity<?> update(Long aLong, UserCreationRequestDTO entity) {
         // Bad request. No update use case for users yet.
         return ResponseEntity.badRequest().body("Not implemented.");
     }

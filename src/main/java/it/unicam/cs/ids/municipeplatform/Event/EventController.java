@@ -1,17 +1,18 @@
 package it.unicam.cs.ids.municipeplatform.Event;
 
-import it.unicam.cs.ids.municipeplatform.BaseCrudController;
+import it.unicam.cs.ids.municipeplatform.DataManagerController;
 import it.unicam.cs.ids.municipeplatform.DTOs.EventCreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.Content.ContentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @RestController
 @RequestMapping("/event")
-public class EventController implements BaseCrudController<EventCreationRequestDTO, Long>
+public class EventController implements DataManagerController<EventCreationRequestDTO, Long>
 {
     private final ContentService contentService;
 
@@ -36,14 +37,14 @@ public class EventController implements BaseCrudController<EventCreationRequestD
     }
 
     @Override
-    public ResponseEntity<?> update(EventCreationRequestDTO dto, Long id){
+    public ResponseEntity<?> update(@PathVariable("id") Long eventId, @RequestBody EventCreationRequestDTO dto){
 
         //Save up event id
         EventEntity elem = new EventEntity(dto);
-        elem.setId(id);
+        elem.setId(eventId);
 
         contentService.updateEvent(elem);
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("Event successfully updated.");
     }
 
     @Override

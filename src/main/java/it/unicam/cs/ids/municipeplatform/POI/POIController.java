@@ -2,17 +2,18 @@ package it.unicam.cs.ids.municipeplatform.POI;
 
 import it.unicam.cs.ids.municipeplatform.DTOs.POICreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.Content.ContentService;
-import it.unicam.cs.ids.municipeplatform.BaseCrudController;
+import it.unicam.cs.ids.municipeplatform.DataManagerController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 @RestController
 @RequestMapping("/poi")
-public class POIController implements BaseCrudController<POICreationRequestDTO, Long>
+public class POIController implements DataManagerController<POICreationRequestDTO, Long>
 {
     private final ContentService contentService;
 
@@ -36,15 +37,15 @@ public class POIController implements BaseCrudController<POICreationRequestDTO, 
     }
 
     @Override
-    public ResponseEntity<?> update(POICreationRequestDTO dto, Long id) {
+    public ResponseEntity<?> update(@PathVariable("id") Long POIid, @RequestBody POICreationRequestDTO dto) {
         POIEntity elem = new POIEntity(dto);
-        elem.setId(id);
+        elem.setId(POIid);
 
         contentService.updatePoi(elem);
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("POI successfully updated.");
     }
     @Override
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body("User successfully deleted.");
+        return ResponseEntity.ok().body("POI successfully deleted.");
 }
 }

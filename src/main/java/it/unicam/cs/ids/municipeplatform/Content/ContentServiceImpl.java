@@ -5,15 +5,16 @@ import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryRepository;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIRepository;
-import it.unicam.cs.ids.municipeplatform.TownHall.TownHallRepository;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserRepository;
 
 import it.unicam.cs.ids.municipeplatform.User.*;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,18 +23,18 @@ import java.util.stream.StreamSupport;
 @Service
 public class ContentServiceImpl implements ContentService {
     private final ItineraryRepository itineraryRepository;
-    private final POIRepository pointOfInterestRepository;
+    private final POIRepository POIRepository;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ContentRepository contentRepository;
 
     public ContentServiceImpl(ItineraryRepository itineraryRepository,
-                              POIRepository pointOfInterestRepository,
+                              POIRepository POIRepository,
                               EventRepository eventRepository,
                               UserRepository userRepository, ContentRepository contentRepository) {
 
         this.itineraryRepository = itineraryRepository;
-        this.pointOfInterestRepository = pointOfInterestRepository;
+        this.POIRepository = POIRepository;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.contentRepository = contentRepository;
@@ -137,7 +138,7 @@ public class ContentServiceImpl implements ContentService {
         pointOfInterest.setStatus(getDefaultApprovalStatusFromUser(pointOfInterest.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't have an approval status")));
 
-        return pointOfInterestRepository.save(pointOfInterest);
+        return POIRepository.save(pointOfInterest);
     }
 
     /**
@@ -186,7 +187,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public POIEntity getPoi(Long id)
     {
-        return pointOfInterestRepository.findById(id).orElseThrow();
+        return POIRepository.findById(id).orElseThrow();
     }
 
     /**
@@ -210,6 +211,41 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public ContentEntity getContent(Long id) {
         return contentRepository.findById(id).orElseThrow();
+    }
+
+    /**
+     * Retrieve all contents available in the system.
+     *
+     * @return A list of Contents.
+     */
+    @Override
+    public List<ContentEntity> getAllContent(){
+        return StreamSupport.stream(contentRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieve all contents that are in a 'pending' state in the system.
+     *
+     * @return A list of 'pending' Contents.
+     */
+    @Override
+    public List<ContentEntity> getAllPending(){
+        return new ArrayList<>(contentRepository.findAllPending());
+    }
+
+    /**
+     * Retrieve all contents associated with a User.
+     *
+     * @return A list of Contents.
+     */
+    @Override
+    public List<ContentEntity> getAllContentByUserId(Long userId){
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("| ERROR | Creator doesn't exist");
+        }
+        return contentRepository.findAllContentByUserId(userId);
     }
 
     /**
@@ -239,7 +275,7 @@ public class ContentServiceImpl implements ContentService {
      * @return A list of all points of interest.
      */
     public List<POIEntity> getAllPoi() {
-        return StreamSupport.stream(pointOfInterestRepository.findAll().spliterator(), false)
+        return StreamSupport.stream(POIRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
@@ -284,7 +320,7 @@ public class ContentServiceImpl implements ContentService {
         pointOfInterest.setCreator(userRepository.findById(pointOfInterest.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | Creator doesn't exist")));
 
-        pointOfInterestRepository.save(pointOfInterest);
+        POIRepository.save(pointOfInterest);
     }
 
     /**
@@ -307,6 +343,7 @@ public class ContentServiceImpl implements ContentService {
 
         UserEntity user = userRepository.findById(itinerary.getCreator().getIdUser())
                 .orElseThrow(() -> new IllegalArgumentException("| ERROR | User doesn't exist"));
+
         itinerary.setCreator(user);
 
         for (Long id : contents)
@@ -338,10 +375,10 @@ public class ContentServiceImpl implements ContentService {
      * @param id The ID of the point of interest to approve.
      */
     @Override
-    public void approvePointOfInterest(Long id) {
-        pointOfInterestRepository.findById(id).ifPresent(poi -> {
+    public void approvePOI(Long id) {
+        POIRepository.findById(id).ifPresent(poi -> {
             poi.setStatus(StateContent.ACCEPTED);
-            pointOfInterestRepository.save(poi);
+            POIRepository.save(poi);
         });
     }
 

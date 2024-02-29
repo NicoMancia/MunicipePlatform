@@ -3,6 +3,7 @@ import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Spliterator;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

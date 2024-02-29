@@ -48,8 +48,8 @@ public class SearchController {
     @GetMapping(path ="/itineraries")
     public List<ItineraryEntity> searchItineraries(@RequestParam String name,
                                                    @RequestParam String description,
-                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date creationDate,
-                                                   @RequestParam int difficultyLevel) {
+                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime creationDate
+                                                   ) {
         return searchService.searchItineraries(name, description, creationDate);
     }
 

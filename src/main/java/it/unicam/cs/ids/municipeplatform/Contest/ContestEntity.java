@@ -62,6 +62,18 @@ public class ContestEntity {
         this.contents.add(content);
     }
 
+    public void unsubscribe(ContentEntity content) {
+        // make sure it's not here already
+        for (ContentEntity c : contents) {
+            if (c.getId().equals(content.getId())) {
+                this.contents.remove(content);
+                return;
+            }
+        }
+        throw new IllegalStateException("Content already unsubscribed to contest.");
+
+    }
+
     public Set<Long> closeContest(Long winnerContentId) {
         if (!this.contestOpen) {
             throw new IllegalStateException("Contest is already closed.");

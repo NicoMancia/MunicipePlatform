@@ -16,7 +16,7 @@ import java.util.List;
 public interface SearchService {
     List<ContestEntity> searchContests(String name, Date startDate, Date endDate, String type);
     List<ContentEntity> searchContent(String name, String description, Date creationDate, String contentType);
-    List<ItineraryEntity> searchItineraries(String name, String description, Date creationDate);
+    List<ItineraryEntity> searchItineraries(String name, String description, LocalDateTime creationDate);
     List<POIEntity> searchPointsOfInterest(String name, String description, PoiCategory category);
     List<EventEntity> searchEvents(String name, String description, EventCategory category, LocalDateTime startDate,LocalDateTime endDate);
 }

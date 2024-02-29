@@ -11,5 +11,5 @@ import java.util.List;
 @Data
 public class ItineraryCreationRequestDTO extends ContentCreationRequestDTO {
     private List<Long> contents;
-    private Date endItineraryDate;
+    private LocalDateTime endItineraryDate;
 }

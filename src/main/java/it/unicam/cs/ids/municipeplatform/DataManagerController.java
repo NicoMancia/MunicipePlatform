@@ -3,7 +3,7 @@ package it.unicam.cs.ids.municipeplatform;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-public interface BaseCrudController<T, ID> {
+public interface DataManagerController<T, ID> {
 
     @PostMapping
     ResponseEntity<?> create(@RequestBody T entity);
@@ -15,7 +15,7 @@ public interface BaseCrudController<T, ID> {
     ResponseEntity<?> getAll();
 
     @PutMapping("/{id}")
-    ResponseEntity<?> update(@RequestBody T entity, @PathVariable ID id);
+    ResponseEntity<?> update(@PathVariable ID id, @RequestBody T entity);
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable ID id);

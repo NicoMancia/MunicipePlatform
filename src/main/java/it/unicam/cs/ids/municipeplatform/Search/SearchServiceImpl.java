@@ -93,7 +93,7 @@ public class SearchServiceImpl implements SearchService {
      * @return A list of itineraries that match the search criteria.
      */
     @Override
-    public List<ItineraryEntity> searchItineraries(String name, String description, Date creationDate) {
+    public List<ItineraryEntity> searchItineraries(String name, String description, LocalDateTime creationDate) {
         return itineraryRepository.findByNameAndDescriptionAndCreationDate(
                 name, description, creationDate);
     }

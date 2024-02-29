@@ -2,9 +2,10 @@ package it.unicam.cs.ids.municipeplatform.Itinerary;
 
 import it.unicam.cs.ids.municipeplatform.DTOs.ItineraryCreationRequestDTO;
 import it.unicam.cs.ids.municipeplatform.Content.ContentService;
-import it.unicam.cs.ids.municipeplatform.BaseCrudController;
+import it.unicam.cs.ids.municipeplatform.DataManagerController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/itinerary")
-public class ItineraryController implements BaseCrudController<ItineraryCreationRequestDTO, Long>
+public class ItineraryController implements DataManagerController<ItineraryCreationRequestDTO, Long>
 {
     private final ContentService contentService;
 
@@ -36,12 +37,12 @@ public class ItineraryController implements BaseCrudController<ItineraryCreation
     }
 
     @Override
-    public ResponseEntity<?> update(ItineraryCreationRequestDTO dto, Long id) {
+    public ResponseEntity<?> update(@PathVariable("id") Long itineraryId,@RequestBody ItineraryCreationRequestDTO dto) {
         ItineraryEntity it = new ItineraryEntity(dto);
-        it.setId(id);
+        it.setId(itineraryId);
 
         contentService.updateItinerary(it, dto.getContents());
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("Itinerary successfully updated.");
     }
 
     @Override

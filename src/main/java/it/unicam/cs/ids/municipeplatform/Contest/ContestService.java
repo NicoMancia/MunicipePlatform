@@ -10,6 +10,8 @@ public interface ContestService {
     void updateContest(ContestEntity contest, List<Long> contents);
 
     void subscribeContent(Long contentId, Long contestId);
+    void unsubscribeContent(Long contentId, Long contestId);
+
 
     void terminateContest(Long contestId, Long winningContentId);
 }

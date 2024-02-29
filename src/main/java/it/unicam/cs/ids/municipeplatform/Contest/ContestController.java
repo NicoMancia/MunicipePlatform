@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.municipeplatform.Contest;
 
 import it.unicam.cs.ids.municipeplatform.DTOs.ContestCreationRequestDTO;
-import it.unicam.cs.ids.municipeplatform.BaseCrudController;
+import it.unicam.cs.ids.municipeplatform.DataManagerController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/contest")
-public class ContestController implements BaseCrudController<ContestCreationRequestDTO, Long> {
+public class ContestController implements DataManagerController<ContestCreationRequestDTO, Long> {
     private final ContestService contestService;
 
     public ContestController(ContestService contestService) {
@@ -34,9 +34,9 @@ public class ContestController implements BaseCrudController<ContestCreationRequ
     }
 
     @Override
-    public ResponseEntity<?> update(ContestCreationRequestDTO dto, Long id) {
+    public ResponseEntity<?> update(Long contestId, ContestCreationRequestDTO dto) {
         ContestEntity elem = new ContestEntity(dto);
-        elem.setId(id);
+        elem.setId(contestId);
 
         this.contestService.updateContest(elem, dto.getContents());
 
@@ -48,7 +48,15 @@ public class ContestController implements BaseCrudController<ContestCreationRequ
                                               @PathVariable Long contestId) {
         contestService.subscribeContent(contentId, contestId);
 
-        return ResponseEntity.ok("{}");
+        return ResponseEntity.ok("Content successfully subscribed!");
+    }
+
+    @PutMapping("/unsubscribe/{contestId}")
+    public ResponseEntity<?> unsubscribeContent(@RequestBody  Long contentId,
+                                              @PathVariable Long contestId) {
+        contestService.unsubscribeContent(contentId, contestId);
+
+        return ResponseEntity.ok("Content successfully unsubscribed.");
     }
 
     @PutMapping("/terminate/{contestId}")
