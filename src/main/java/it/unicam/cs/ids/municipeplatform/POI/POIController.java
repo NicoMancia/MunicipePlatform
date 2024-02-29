@@ -5,10 +5,7 @@ import it.unicam.cs.ids.municipeplatform.Content.ContentService;
 import it.unicam.cs.ids.municipeplatform.DataManagerController;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -25,7 +22,12 @@ public class POIController implements DataManagerController<POICreationRequestDT
         POIEntity newPointOfInterest = contentService.createNewPointOfInterest(new POIEntity(dto));
         return ResponseEntity.ok(newPointOfInterest);
     }
-
+    @GetMapping(path ="/search")
+    public List<POIEntity> searchPOI(@RequestParam String name,
+                                     @RequestParam String description,
+                                     @RequestParam PoiCategory category) {
+        return contentService.searchPOI(name, description, category);
+    }
     @Override
     public ResponseEntity<POIEntity> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(contentService.getPoi(id));
@@ -46,6 +48,7 @@ public class POIController implements DataManagerController<POICreationRequestDT
     }
     @Override
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        contentService.delete(id);
         return ResponseEntity.ok().body("POI successfully deleted.");
-}
+    }
 }

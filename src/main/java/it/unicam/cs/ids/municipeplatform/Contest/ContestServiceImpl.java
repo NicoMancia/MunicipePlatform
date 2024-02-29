@@ -6,6 +6,7 @@ import it.unicam.cs.ids.municipeplatform.User.UserRole;
 import it.unicam.cs.ids.municipeplatform.User.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -113,7 +114,10 @@ public class ContestServiceImpl implements ContestService {
         contestRepository.save(contest);
         return true;
     }
-
+    @Override
+    public List<ContestEntity> searchContests(String name, LocalDateTime startDate, LocalDateTime endDate, String type) {
+        return contestRepository.findByNameAndInitialDateBetweenAndType(name, startDate, endDate, type);
+    }
     @Override
     public void terminateContest(Long contestId)
     {

@@ -1,8 +1,10 @@
 package it.unicam.cs.ids.municipeplatform.Content;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -46,7 +48,6 @@ public class ContentController {
     public ResponseEntity<List<ContentEntity>> getAllPending() {
         return ResponseEntity.ok(contentService.getAllPending());
     }
-
     @PutMapping("/approve/event/{id}")
     public ResponseEntity<?> approveEvent(@PathVariable Long id, @RequestBody Long userId)
     {

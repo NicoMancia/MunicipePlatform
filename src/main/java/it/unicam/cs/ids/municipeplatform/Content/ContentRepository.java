@@ -20,6 +20,6 @@ public interface ContentRepository extends CrudRepository<ContentEntity,Long>{
     @Query("SELECT t FROM ContentEntity t WHERE t.status = 2")
     List<ContentEntity> findAllPending();
 
-    @Query("SELECT t FROM ContentEntity t, UserEntity u WHERE t.creator.idUser = :userId")
+    @Query("SELECT t FROM ContentEntity t WHERE t.creator.idUser = :userId")
     List<ContentEntity> findAllContentByUserId(@Param("userId") Long userId);
 }

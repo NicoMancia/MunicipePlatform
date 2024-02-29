@@ -48,4 +48,5 @@ public abstract class ContentEntity {
     public ContentEntity(Long id) {
         this.setId(id);
     }
+
 }

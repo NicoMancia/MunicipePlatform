@@ -1,16 +1,17 @@
 package it.unicam.cs.ids.municipeplatform.Report;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import it.unicam.cs.ids.municipeplatform.Content.ContentEntity;
-import it.unicam.cs.ids.municipeplatform.DTOs.ReportCreationRequestDTO;
-import it.unicam.cs.ids.municipeplatform.DTOs.UserCreationRequestDTO;
+import it.unicam.cs.ids.municipeplatform.DTOs.ReportEventCreationRequestDTO;
+import it.unicam.cs.ids.municipeplatform.DTOs.ReportItineraryCreationRequestDTO;
+import it.unicam.cs.ids.municipeplatform.DTOs.ReportPOICreationRequestDTO;
+import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
+import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
+import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,15 +26,47 @@ public class ReportEntity {
     private UserEntity reporter;
     private String description;
     private LocalDateTime reportingDate;
-    StateReport enumReport;
+    StateReport status;
     @ManyToOne
-    private ContentEntity content;
+    private POIEntity poiEntity = null;
+    @ManyToOne
+    private EventEntity eventEntity = null;
+    @ManyToOne
+    private ItineraryEntity itineraryEntity = null;
 
-    public ReportEntity(ReportCreationRequestDTO reportCreationRequestDTO) {
+
+    public ReportEntity(ReportEventCreationRequestDTO reportEventCreationRequestDTO) {
+        this.description = reportEventCreationRequestDTO.getDescription();
+        this.reportingDate = reportEventCreationRequestDTO.getReportingDate();
+        this.status = StateReport.PENDING;
+
         this.reporter = new UserEntity();
-        this.description = reportCreationRequestDTO.getDescription();
-        this.reportingDate = reportCreationRequestDTO.getReportingDate();
-        //this.content= new ContentEntity();
+        reporter.setIdUser(reportEventCreationRequestDTO.getReporter());
 
+        this.eventEntity = new EventEntity();
+        eventEntity.setId(reportEventCreationRequestDTO.getIdEvent());
+    }
+
+    public ReportEntity(ReportItineraryCreationRequestDTO reportItineraryCreationRequestDTO) {
+        this.description = reportItineraryCreationRequestDTO.getDescription();
+        this.reportingDate = reportItineraryCreationRequestDTO.getReportingDate();
+        this.status = reportItineraryCreationRequestDTO.getStatus();
+
+        this.reporter = new UserEntity();
+        reporter.setIdUser(reportItineraryCreationRequestDTO.getReporter());
+
+        this.itineraryEntity = new ItineraryEntity();
+        itineraryEntity.setId(reportItineraryCreationRequestDTO.getIdItinerary());
+    }
+    public ReportEntity(ReportPOICreationRequestDTO reportPOICreationRequestDTO) {
+        this.description = reportPOICreationRequestDTO.getDescription();
+        this.reportingDate = reportPOICreationRequestDTO.getReportingDate();
+        this.status = reportPOICreationRequestDTO.getStatus();
+
+        this.reporter = new UserEntity();
+        reporter.setIdUser(reportPOICreationRequestDTO.getReporter());
+
+        this.poiEntity = new POIEntity();
+        poiEntity.setId(reportPOICreationRequestDTO.getIdPOI());
     }
 }

@@ -1,16 +1,19 @@
 package it.unicam.cs.ids.municipeplatform.Content;
+import it.unicam.cs.ids.municipeplatform.Event.EventCategory;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Event.EventRepository;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryRepository;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIRepository;
+import it.unicam.cs.ids.municipeplatform.POI.PoiCategory;
 import it.unicam.cs.ids.municipeplatform.User.UserEntity;
 import it.unicam.cs.ids.municipeplatform.User.UserRepository;
 
 import it.unicam.cs.ids.municipeplatform.User.*;
 
 import jakarta.persistence.EntityNotFoundException;
+import jdk.jshell.spi.ExecutionControl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -80,7 +83,21 @@ public class ContentServiceImpl implements ContentService {
 
         return itineraryRepository.save(itinerary);
     }
-
+    @Override
+    public List<ItineraryEntity> searchItineraries(String name, String description, LocalDateTime creationDate) {
+        return itineraryRepository.findByNameAndDescriptionAndCreationDate(
+                name, description, creationDate);
+    }
+    @Override
+    public List<POIEntity> searchPOI(String name, String description, PoiCategory category) {
+        return POIRepository.findByNameAndDescriptionAndCategory(
+                name, description, category);
+    }
+    @Override
+    public List<EventEntity> searchEvents(String name, String description, EventCategory category, LocalDateTime startDate, LocalDateTime endDate) {
+        return eventRepository.findEventsByNameAndDescriptionAndCategoryWithinDateRange(
+                name, description, category, startDate, endDate);
+    }
     public POIEntity createNewPointOfInterest(POIEntity pointOfInterest) {
         if (pointOfInterest == null) {
             throw new IllegalArgumentException("PointOfInterest is NULL.");
@@ -94,7 +111,13 @@ public class ContentServiceImpl implements ContentService {
 
         return POIRepository.save(pointOfInterest);
     }
-
+    @Override
+    public void delete(Long id) {
+        if(!contentRepository.existsById(id)) {
+            throw new IllegalArgumentException("| ERROR | ID does not exist");
+        }
+        contentRepository.delete(contentRepository.findById(id).get());
+    }
     public EventEntity createNewEvent(EventEntity event) {
         if (event == null) {
             throw new IllegalArgumentException("Event is NULL.");

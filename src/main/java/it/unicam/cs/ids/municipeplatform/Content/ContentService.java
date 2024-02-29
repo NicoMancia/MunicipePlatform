@@ -1,8 +1,11 @@
 package it.unicam.cs.ids.municipeplatform.Content;
+import it.unicam.cs.ids.municipeplatform.Event.EventCategory;
 import it.unicam.cs.ids.municipeplatform.Event.EventEntity;
 import it.unicam.cs.ids.municipeplatform.Itinerary.ItineraryEntity;
 import it.unicam.cs.ids.municipeplatform.POI.POIEntity;
+import it.unicam.cs.ids.municipeplatform.POI.PoiCategory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ContentService {
@@ -44,4 +47,8 @@ public interface ContentService {
     void approveItinerary(Long id);
 
     boolean canUserApproveContent(Long contentId, Long userId);
+    void delete(Long id);
+    List<ItineraryEntity> searchItineraries(String name, String description, LocalDateTime creationDate);
+    List<POIEntity> searchPOI(String name, String description, PoiCategory category);
+    List<EventEntity> searchEvents(String name, String description, EventCategory category, LocalDateTime startDate, LocalDateTime endDate);
 }
